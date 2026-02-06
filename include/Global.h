@@ -21,5 +21,6 @@
 //============ VGA Display Function Declarations ===============
 extern bool initVGA();                  // Initialize VGA at 640x480
 extern void VGAtest();
+extern void update_display();
   
 #endif 

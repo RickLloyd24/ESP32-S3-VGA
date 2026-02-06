@@ -11,7 +11,7 @@ void setup() {
   Serial.println("========================================\n");
   
   initVGA();
-  VGAtest();
+  update_display();
 }
 
 void loop() {
