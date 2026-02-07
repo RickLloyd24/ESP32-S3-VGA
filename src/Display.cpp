@@ -6,8 +6,8 @@
 #include "FONT_8x16.h"
 
 //============================================================
-//                    PinConfig: r0,r1,r2,r3,r4, g0,g1,g2,g3,g4,g5,         b0,b1,b2,b3,b4, hSync, vSync
-static const PinConfig pins(-1,-1,-1,-1,Red1Pin, -1,-1,-1,-1,-1,Green1Pin, -1,-1,-1,-1, Blue1Pin, HSyncPin, VSyncPin);
+//                    PinConfig: r0,r1,r2,  r3,     r4,     g0,g1,g2,g3,  g4,      g5,       b0,b1,b2,  b3,      b4,     hSync, vSync
+static const PinConfig pins(-1,-1,-1,Red0Pin,Red1Pin, -1,-1,-1,-1,Green0Pin,Green1Pin, -1,-1,-1,Blue0Pin,Blue1Pin, HSyncPin, VSyncPin);
 static Mode mode = Mode::MODE_320x240x60;
 static VGA vga;
 
@@ -55,4 +55,19 @@ void RGBFunction(int num, int &R, int &G, int &B) {
   R = (num / 16) * 85;           // 0, 85, 170, 255
   G = ((num % 16) / 4) * 85;     // 0, 85, 170, 255
   B = (num % 4) * 85;            // 0, 85, 170, 255
+}
+
+void colorTest() {
+	vga.fillRect(0, 0, mode.hRes, mode.vRes, 0);  // Clear to black
+	int cellW = mode.hRes / 8;   // 40px
+	int cellH = mode.vRes / 8;   // 30px
+	for (int i = 0; i < 64; i++) {
+		int col = i % 8;
+		int row = i / 8;
+		int R, G, B;
+		RGBFunction(i, R, G, B);
+		int color = vga.rgb(R, G, B);
+		vga.fillRect(col * cellW, row * cellH, cellW, cellH, color);
+	}
+	vga.show();
 }
